@@ -46,10 +46,7 @@ export default function Footer() {
                 <Phone className="w-4 h-4 text-luxury-gold" />
                 <span>+212 6XX XX XX XX</span>
               </li>
-              <li className="flex items-center space-x-2 text-luxury-lightGold/70 text-sm">
-                <Mail className="w-4 h-4 text-luxury-gold" />
-                <span>contact@chooseyourmirror.com</span>
-              </li>
+              
               <li className="flex items-center space-x-2 text-luxury-lightGold/70 text-sm">
                 <MapPin className="w-4 h-4 text-luxury-gold" />
                 <span>Casablanca, Maroc</span>
@@ -62,17 +59,12 @@ export default function Footer() {
             <h3 className="text-lg font-serif text-luxury-gold">Suivez-nous</h3>
             <div className="flex space-x-4">
               <a 
-                href="#" 
+                href="https://www.instagram.com/choose_your_mirror/?igsh=dTRyMzcweWdqbzVw" 
                 className="w-10 h-10 rounded-full bg-luxury-gold/10 border border-luxury-gold/30 flex items-center justify-center hover:bg-luxury-gold/20 hover:border-luxury-gold transition-all duration-300"
               >
                 <Instagram className="w-5 h-5 text-luxury-gold" />
               </a>
-              <a 
-                href="#" 
-                className="w-10 h-10 rounded-full bg-luxury-gold/10 border border-luxury-gold/30 flex items-center justify-center hover:bg-luxury-gold/20 hover:border-luxury-gold transition-all duration-300"
-              >
-                <Facebook className="w-5 h-5 text-luxury-gold" />
-              </a>
+              
             </div>
           </div>
         </div>
