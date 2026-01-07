@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   title: "Choose Your Mirror - Miroirs Personnalisés de Luxe",
   description: "Découvrez notre collection exclusive de miroirs personnalisés. Élégance et raffinement pour votre intérieur.",
   keywords: "miroirs, miroirs personnalisés, décoration luxe, miroirs design",
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({
