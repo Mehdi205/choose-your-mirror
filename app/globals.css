@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-inter: 'Inter', sans-serif;
+    --font-playfair: 'Playfair Display', serif;
+  }
+  
+  * {
+    @apply border-luxury-darkNavy;
+  }
+  
+  body {
+    @apply bg-luxury-darkNavy text-luxury-lightGold;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-gradient-gold text-luxury-darkNavy font-semibold px-8 py-3 rounded-lg 
+           hover:shadow-xl hover:scale-105 transition-all duration-300
+           border-2 border-luxury-gold;
+  }
+  
+  .btn-secondary {
+    @apply bg-luxury-navy text-luxury-gold font-semibold px-8 py-3 rounded-lg 
+           hover:bg-luxury-darkNavy hover:shadow-xl transition-all duration-300
+           border-2 border-luxury-gold;
+  }
+  
+  .card-luxury {
+    @apply bg-gradient-navy rounded-2xl p-6 border-2 border-luxury-gold/20
+           hover:border-luxury-gold/50 transition-all duration-300
+           shadow-xl hover:shadow-2xl;
+  }
+  
+  .input-luxury {
+    @apply w-full px-4 py-3 rounded-lg bg-luxury-navy border-2 border-luxury-gold/30
+           text-luxury-lightGold placeholder-luxury-lightGold/50
+           focus:border-luxury-gold focus:outline-none focus:ring-2 focus:ring-luxury-gold/20
+           transition-all duration-300;
+  }
+  
+  .section-title {
+    @apply text-4xl md:text-5xl font-serif text-luxury-gold mb-6
+           relative inline-block;
+  }
+  
+  .section-title::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-full h-1 bg-gradient-gold;
+  }
+}
+
+@layer utilities {
+  .text-gradient-gold {
+    @apply bg-gradient-gold bg-clip-text text-transparent;
+  }
+  
+  .shimmer-effect {
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      rgba(212, 175, 55, 0.3) 50%, 
+      transparent 100%);
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-luxury-darkNavy;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-luxury-gold rounded-lg;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-luxury-darkGold;
+}
+
+/* Selection styling */
+::selection {
+  @apply bg-luxury-gold text-luxury-darkNavy;
+}
+
+/* Loading animation */
+@keyframes pulse-gold {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse-gold {
+  animation: pulse-gold 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
