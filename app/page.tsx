@@ -6,13 +6,12 @@ import { ArrowRight, Sparkles, Shield, Truck, Star } from 'lucide-react';
 import Header from '@/components/ui/Header';
 import Footer from '@/components/ui/Footer';
 import ProductCard from '@/components/ui/ProductCard';
-import { Product, getProducts, addToCart, initializeDemoData } from '@/lib/store';
+import { Product, getProducts, addToCart} from '@/lib/store';
 
 export default function Home() {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    initializeDemoData();
     const products = getProducts().slice(0, 3);
     setFeaturedProducts(products);
   }, []);
