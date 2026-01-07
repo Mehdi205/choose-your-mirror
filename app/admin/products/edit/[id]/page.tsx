@@ -27,7 +27,6 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
       return;
     }
 
-    // Charger le produit
     const products = getProducts();
     const found = products.find(p => p.id === params.id);
     
@@ -142,7 +141,6 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
 
   return (
     <div className="min-h-screen bg-luxury-darkNavy">
-      {/* Top Bar */}
       <div className="bg-gradient-navy border-b border-luxury-gold/20">
         <div className="container mx-auto px-4 py-4">
           <Link href="/admin/dashboard" className="flex items-center space-x-2 text-luxury-gold hover:text-luxury-lightGold">
@@ -167,7 +165,6 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Name */}
               <div>
                 <label className="block text-sm text-luxury-lightGold/70 mb-2">
                   Nom du produit *
@@ -177,12 +174,10 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="input-luxury"
-                  placeholder="Miroir Élégance Dorée"
                   required
                 />
               </div>
 
-              {/* Description */}
               <div>
                 <label className="block text-sm text-luxury-lightGold/70 mb-2">
                   Description
@@ -191,11 +186,9 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   className="input-luxury min-h-[120px] resize-y"
-                  placeholder="Description détaillée du produit..."
                 />
               </div>
 
-              {/* Category */}
               <div>
                 <label className="block text-sm text-luxury-lightGold/70 mb-2">
                   Catégorie *
@@ -205,12 +198,10 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
                   value={formData.category}
                   onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                   className="input-luxury"
-                  placeholder="Premium, Moderne, Vintage..."
                   required
                 />
               </div>
 
-              {/* Price and Stock */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm text-luxury-lightGold/70 mb-2">
@@ -222,7 +213,6 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
                     value={formData.price}
                     onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                     className="input-luxury"
-                    placeholder="2500"
                     required
                   />
                 </div>
@@ -235,13 +225,11 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
                     value={formData.stock}
                     onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
                     className="input-luxury"
-                    placeholder="10"
                     required
                   />
                 </div>
               </div>
 
-              {/* Customizable */}
               <div>
                 <label className="flex items-center space-x-3 cursor-pointer">
                   <input
@@ -256,13 +244,11 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
                 </label>
               </div>
 
-              {/* Images */}
               <div>
                 <label className="block text-sm text-luxury-lightGold/70 mb-2">
                   Images du produit
                 </label>
                 
-                {/* Upload depuis PC */}
                 <div className="mb-4">
                   <label className="btn-secondary cursor-pointer inline-flex items-center space-x-2">
                     <ImageIcon className="w-5 h-5" />
@@ -283,14 +269,12 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
                   </p>
                 </div>
 
-                {/* OU séparateur */}
                 <div className="flex items-center space-x-4 my-4">
                   <div className="flex-1 border-t border-luxury-gold/20"></div>
                   <span className="text-luxury-lightGold/50 text-sm">OU</span>
                   <div className="flex-1 border-t border-luxury-gold/20"></div>
                 </div>
 
-                {/* URL d'image */}
                 <div className="flex gap-2">
                   <input
                     type="url"
@@ -308,7 +292,6 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
                   </button>
                 </div>
                 
-                {/* Image Preview */}
                 {formData.images.length > 0 && (
                   <div className="mt-4 grid grid-cols-3 gap-4">
                     {formData.images.map((img, index) => (
@@ -331,7 +314,6 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
                 )}
               </div>
 
-              {/* Submit */}
               <div className="flex gap-4 pt-6">
                 <button type="submit" className="btn-primary flex-1">
                   Enregistrer les Modifications
