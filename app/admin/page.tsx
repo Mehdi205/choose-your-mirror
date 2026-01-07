@@ -11,7 +11,7 @@ export default function AdminLoginPage() {
   const [error, setError] = useState('');
 
   // Mot de passe admin (à changer en production)
-  const ADMIN_PASSWORD = 'admin123';
+  const ADMIN_PASSWORD = 'yoyoenj123';
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -80,9 +80,7 @@ export default function AdminLoginPage() {
               Se connecter
             </button>
 
-            <p className="text-xs text-luxury-lightGold/50 text-center">
-              Mot de passe par défaut: admin123
-            </p>
+           
           </form>
         </div>
       </div>
