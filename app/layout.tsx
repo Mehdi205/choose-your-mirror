@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description: "Découvrez notre collection exclusive de miroirs personnalisés. Élégance et raffinement pour votre intérieur.",
   keywords: "miroirs, miroirs personnalisés, décoration luxe, miroirs design",
   icons: {
-    icon: '/favicon.ico',
+    icon: '/logo.ico',
   },
 };
 
