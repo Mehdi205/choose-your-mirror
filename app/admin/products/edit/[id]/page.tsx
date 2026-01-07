@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { isAdminAuthenticated, getProducts, updateProduct, deleteProduct, Product } from '@/lib/store';
+import { isAdminAuthenticated, getProductById, updateProduct, deleteProduct, Product } from '@/lib/store';
 import { ArrowLeft, Upload, X, Image as ImageIcon, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -22,32 +22,34 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
   const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
-    if (!isAdminAuthenticated()) {
-      router.push('/admin');
-      return;
-    }
+    const loadProduct = async () => {
+      if (!isAdminAuthenticated()) {
+        router.push('/admin');
+        return;
+      }
 
-    const products = getProducts();
-    const found = products.find(p => p.id === params.id);
-    
-    if (found) {
-      setProduct(found);
-      setFormData({
-        name: found.name,
-        description: found.description,
-        price: found.price.toString(),
-        category: found.category,
-        stock: found.stock.toString(),
-        images: found.images || [],
-        customizable: found.customizable || false
-      });
-    } else {
-      alert('Produit introuvable');
-      router.push('/admin/dashboard');
-    }
+      const found = await getProductById(params.id);
+      
+      if (found) {
+        setProduct(found);
+        setFormData({
+          name: found.name,
+          description: found.description,
+          price: found.price.toString(),
+          category: found.category,
+          stock: found.stock.toString(),
+          images: found.images || [],
+          customizable: found.customizable || false
+        });
+      } else {
+        alert('Produit introuvable');
+        router.push('/admin/dashboard');
+      }
+    };
+    loadProduct();
   }, [params.id, router]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.name || !formData.price || !formData.category || !formData.stock) {
@@ -55,7 +57,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
       return;
     }
 
-    updateProduct(params.id, {
+    const success = await updateProduct(params.id, {
       name: formData.name,
       description: formData.description,
       price: parseFloat(formData.price),
@@ -65,15 +67,23 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
       customizable: formData.customizable
     });
 
-    alert('✨ Produit modifié avec succès !');
-    router.push('/admin/dashboard');
+    if (success) {
+      alert('✨ Produit modifié avec succès !');
+      router.push('/admin/dashboard');
+    } else {
+      alert('❌ Erreur lors de la modification');
+    }
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (confirm('⚠️ Êtes-vous sûr de vouloir supprimer ce produit ? Cette action est irréversible.')) {
-      deleteProduct(params.id);
-      alert('🗑️ Produit supprimé avec succès');
-      router.push('/admin/dashboard');
+      const success = await deleteProduct(params.id);
+      if (success) {
+        alert('🗑️ Produit supprimé avec succès');
+        router.push('/admin/dashboard');
+      } else {
+        alert('❌ Erreur lors de la suppression');
+      }
     }
   };
 

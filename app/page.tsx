@@ -6,14 +6,18 @@ import { ArrowRight, Sparkles, Shield, Truck, Star } from 'lucide-react';
 import Header from '@/components/ui/Header';
 import Footer from '@/components/ui/Footer';
 import ProductCard from '@/components/ui/ProductCard';
-import { Product, getProducts, addToCart} from '@/lib/store';
+import { Product, getProducts, addToCart, initializeDemoData } from '@/lib/store';
 
 export default function Home() {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    const products = getProducts().slice(0, 3);
-    setFeaturedProducts(products);
+    const loadProducts = async () => {
+      await initializeDemoData();
+      const products = await getProducts();
+      setFeaturedProducts(products.slice(0, 3));
+    };
+    loadProducts();
   }, []);
 
   const handleAddToCart = (product: Product) => {
@@ -28,7 +32,6 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-        {/* Background Effects */}
         <div className="absolute inset-0 bg-gradient-radial from-luxury-navy via-luxury-darkNavy to-black"></div>
         <div className="absolute inset-0">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-luxury-gold/10 rounded-full blur-3xl animate-float"></div>
@@ -37,7 +40,6 @@ export default function Home() {
 
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center space-y-8 animate-fade-in">
-            {/* Main Title */}
             <div className="space-y-4">
               <div className="flex items-center justify-center space-x-2 mb-6">
                 <Sparkles className="w-8 h-8 text-luxury-gold animate-pulse" />
@@ -54,13 +56,11 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Description */}
             <p className="text-lg md:text-xl text-luxury-lightGold/80 max-w-2xl mx-auto leading-relaxed">
               Découvrez notre collection exclusive de miroirs sur mesure. 
               Chaque création est un chef-d'œuvre unique qui sublime votre intérieur.
             </p>
 
-            {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-8">
               <Link href="/products" className="btn-primary group">
                 Découvrir la Collection
@@ -71,7 +71,6 @@ export default function Home() {
               </Link>
             </div>
 
-            {/* Stats */}
             <div className="grid grid-cols-3 gap-8 max-w-3xl mx-auto pt-16">
               <div className="text-center">
                 <div className="text-4xl font-bold text-luxury-gold mb-2">500+</div>
@@ -89,7 +88,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Scroll Indicator */}
         <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
           <div className="w-6 h-10 border-2 border-luxury-gold rounded-full flex items-start justify-center p-2">
             <div className="w-1 h-3 bg-luxury-gold rounded-full animate-pulse"></div>

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/ui/Header';
 import Footer from '@/components/ui/Footer';
-import { Product, getProducts, addToCart } from '@/lib/store';
+import { Product, getProductById, addToCart } from '@/lib/store';
 import { ArrowLeft, ShoppingCart, Package, Star, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
@@ -17,15 +17,17 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
   const [customizationText, setCustomizationText] = useState('');
 
   useEffect(() => {
-    const products = getProducts();
-    const found = products.find(p => p.id === params.id);
+  const loadProduct = async () => {
+    const found = await getProductById(params.id);
     
     if (found) {
       setProduct(found);
     } else {
       router.push('/products');
     }
-  }, [params.id, router]);
+  };
+  loadProduct();
+}, [params.id, router]);
 
   const handleAddToCart = () => {
     if (product) {

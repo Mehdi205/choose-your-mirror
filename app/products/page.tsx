@@ -14,10 +14,13 @@ export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   useEffect(() => {
-    const allProducts = getProducts();
+  const loadProducts = async () => {
+    const allProducts = await getProducts();
     setProducts(allProducts);
     setFilteredProducts(allProducts);
-  }, []);
+  };
+  loadProducts();
+}, []);
 
   useEffect(() => {
     let result = products;

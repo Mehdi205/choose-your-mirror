@@ -69,13 +69,17 @@ export default function CartPage() {
     setIsSubmitting(true);
 
     try {
-      // Create order in localStorage
-      const order = createOrder(customerName, customerPhone, customerEmail, cartItems);
-      
-      // Send to WhatsApp
-      const total = calculateTotal();
-      sendWhatsAppOrder(ADMIN_WHATSAPP, customerName, customerPhone, customerEmail, cartItems, total);
-      
+  // Create order in database
+  const order = await createOrder(customerName, customerPhone, customerEmail, cartItems);
+  
+  if (!order) {
+    alert('❌ Erreur lors de la création de la commande');
+    return;
+  }
+  
+  // Send to WhatsApp
+  const total = calculateTotal();
+  sendWhatsAppOrder(ADMIN_WHATSAPP, customerName, customerPhone, customerEmail, cartItems, total);
       // Clear cart
       clearCart();
       loadCart();

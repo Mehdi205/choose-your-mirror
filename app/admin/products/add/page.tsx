@@ -14,7 +14,8 @@ export default function AddProductPage() {
     price: '',
     category: '',
     stock: '',
-    images: [] as string[]
+    images: [] as string[],
+    customizable: false
   });
   const [imageUrl, setImageUrl] = useState('');
   const [isUploading, setIsUploading] = useState(false);
@@ -25,7 +26,7 @@ export default function AddProductPage() {
     }
   }, [router]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.name || !formData.price || !formData.category || !formData.stock) {
@@ -33,20 +34,24 @@ export default function AddProductPage() {
       return;
     }
 
-    const product = addProduct({
+    const product = await addProduct({
       name: formData.name,
       description: formData.description,
       price: parseFloat(formData.price),
       category: formData.category,
       stock: parseInt(formData.stock),
-      images: formData.images
+      images: formData.images,
+      customizable: formData.customizable
     });
 
-    alert('✨ Produit ajouté avec succès !');
-    router.push('/admin/dashboard');
+    if (product) {
+      alert('✨ Produit ajouté avec succès !');
+      router.push('/admin/dashboard');
+    } else {
+      alert('❌ Erreur lors de l\'ajout du produit');
+    }
   };
 
-  // Ajouter une URL d'image
   const addImageUrl = () => {
     if (imageUrl && !formData.images.includes(imageUrl)) {
       setFormData({ ...formData, images: [...formData.images, imageUrl] });
@@ -54,7 +59,6 @@ export default function AddProductPage() {
     }
   };
 
-  // Upload depuis PC (Base64)
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
@@ -62,14 +66,12 @@ export default function AddProductPage() {
     setIsUploading(true);
 
     Array.from(files).forEach((file) => {
-      // Vérifier le type de fichier
       if (!file.type.startsWith('image/')) {
         alert('Veuillez sélectionner uniquement des images');
         setIsUploading(false);
         return;
       }
 
-      // Vérifier la taille (max 2MB)
       if (file.size > 2 * 1024 * 1024) {
         alert('L\'image est trop grande (max 2MB)');
         setIsUploading(false);
@@ -103,7 +105,6 @@ export default function AddProductPage() {
 
   return (
     <div className="min-h-screen bg-luxury-darkNavy">
-      {/* Top Bar */}
       <div className="bg-gradient-navy border-b border-luxury-gold/20">
         <div className="container mx-auto px-4 py-4">
           <Link href="/admin/dashboard" className="flex items-center space-x-2 text-luxury-gold hover:text-luxury-lightGold">
@@ -119,7 +120,6 @@ export default function AddProductPage() {
             <h1 className="text-3xl font-serif text-luxury-gold mb-8">Ajouter un Produit</h1>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Name */}
               <div>
                 <label className="block text-sm text-luxury-lightGold/70 mb-2">
                   Nom du produit *
@@ -134,7 +134,6 @@ export default function AddProductPage() {
                 />
               </div>
 
-              {/* Description */}
               <div>
                 <label className="block text-sm text-luxury-lightGold/70 mb-2">
                   Description
@@ -147,7 +146,6 @@ export default function AddProductPage() {
                 />
               </div>
 
-              {/* Category */}
               <div>
                 <label className="block text-sm text-luxury-lightGold/70 mb-2">
                   Catégorie *
@@ -162,7 +160,6 @@ export default function AddProductPage() {
                 />
               </div>
 
-              {/* Price and Stock */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm text-luxury-lightGold/70 mb-2">
@@ -193,13 +190,25 @@ export default function AddProductPage() {
                 </div>
               </div>
 
-              {/* Images */}
+              <div>
+                <label className="flex items-center space-x-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={formData.customizable}
+                    onChange={(e) => setFormData({ ...formData, customizable: e.target.checked })}
+                    className="w-5 h-5 rounded border-luxury-gold/30 bg-luxury-navy text-luxury-gold focus:ring-luxury-gold focus:ring-2"
+                  />
+                  <span className="text-luxury-lightGold/70">
+                    Produit personnalisable
+                  </span>
+                </label>
+              </div>
+
               <div>
                 <label className="block text-sm text-luxury-lightGold/70 mb-2">
                   Images du produit
                 </label>
                 
-                {/* Upload depuis PC */}
                 <div className="mb-4">
                   <label className="btn-secondary cursor-pointer inline-flex items-center space-x-2">
                     <ImageIcon className="w-5 h-5" />
@@ -220,14 +229,12 @@ export default function AddProductPage() {
                   </p>
                 </div>
 
-                {/* OU séparateur */}
                 <div className="flex items-center space-x-4 my-4">
                   <div className="flex-1 border-t border-luxury-gold/20"></div>
                   <span className="text-luxury-lightGold/50 text-sm">OU</span>
                   <div className="flex-1 border-t border-luxury-gold/20"></div>
                 </div>
 
-                {/* URL d'image */}
                 <div className="flex gap-2">
                   <input
                     type="url"
@@ -245,7 +252,6 @@ export default function AddProductPage() {
                   </button>
                 </div>
                 
-                {/* Image Preview */}
                 {formData.images.length > 0 && (
                   <div className="mt-4 grid grid-cols-3 gap-4">
                     {formData.images.map((img, index) => (
@@ -268,7 +274,6 @@ export default function AddProductPage() {
                 )}
               </div>
 
-              {/* Submit */}
               <div className="flex gap-4 pt-6">
                 <button type="submit" className="btn-primary flex-1">
                   Ajouter le Produit
