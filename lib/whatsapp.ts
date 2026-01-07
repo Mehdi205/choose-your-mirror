@@ -1,5 +1,7 @@
 import { CartItem } from './store';
 
+export const ADMIN_WHATSAPP = '+212614606794'; // ⚠️ CHANGE CE NUMÉRO !
+
 export const generateWhatsAppMessage = (
   customerName: string,
   customerPhone: string,
@@ -48,17 +50,46 @@ export const generateWhatsAppMessage = (
 };
 
 export const sendWhatsAppOrder = (
-  phoneNumber: string,
+  adminPhone: string,
   customerName: string,
   customerPhone: string,
   customerEmail: string,
   items: CartItem[],
   total: number
-): void => {
+) => {
   const message = generateWhatsAppMessage(customerName, customerPhone, customerEmail, items, total);
-  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
-  window.open(whatsappUrl, '_blank');
+  
+  // Détection du système d'exploitation
+  const userAgent = navigator.userAgent || navigator.vendor;
+  const isIOS = /iPad|iPhone|iPod/.test(userAgent);
+  const isAndroid = /android/i.test(userAgent);
+  
+  // URL WhatsApp adaptée selon la plateforme
+  let whatsappUrl = '';
+  
+  if (isIOS) {
+    // Pour iOS : utilise whatsapp:// ou https://wa.me
+    whatsappUrl = `https://wa.me/${adminPhone}?text=${message}`;
+    
+    // Essayer d'ouvrir l'app WhatsApp d'abord
+    const appUrl = `whatsapp://send?phone=${adminPhone}&text=${message}`;
+    const startTime = Date.now();
+    
+    window.location.href = appUrl;
+    
+    // Fallback vers wa.me si l'app ne s'ouvre pas en 1.5 secondes
+    setTimeout(() => {
+      if (Date.now() - startTime < 2000) {
+        window.location.href = whatsappUrl;
+      }
+    }, 1500);
+  } else if (isAndroid) {
+    // Pour Android
+    whatsappUrl = `https://wa.me/${adminPhone}?text=${message}`;
+    window.open(whatsappUrl, '_blank');
+  } else {
+    // Pour Desktop (web.whatsapp.com)
+    whatsappUrl = `https://web.whatsapp.com/send?phone=${adminPhone}&text=${message}`;
+    window.open(whatsappUrl, '_blank');
+  }
 };
-
-// Numéro WhatsApp de l'administrateur (à modifier selon votre numéro)
-export const ADMIN_WHATSAPP = '+212614606794'; // Format: code pays + numéro sans le 0
