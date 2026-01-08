@@ -1,6 +1,6 @@
 import { CartItem } from './store';
 
-export const ADMIN_WHATSAPP = '+212614606794'; // ⚠️ CHANGE CE NUMÉRO !
+export const ADMIN_WHATSAPP = '+212690086437'; // ⚠️ CHANGE CE NUMÉRO !
 
 export const generateWhatsAppMessage = (
   customerName: string,
